@@ -19,7 +19,7 @@
         }
     </style>
 </head>
-<body ng-controller="basicsCtrl" class="container-fluid">
+<body ng-controller="previewCtrl" class="container-fluid">
 
     <!----HEADER BEGINING.......................................................................................-->
         <div class="row" id="header">
@@ -47,19 +47,20 @@
         <!--<div class="row" id="body">-->
 
 
-                    <div class="row" ng-repeat="row in rowCollection">  
+                    <div class="row table table-bordered" style="margin-left:0.1pt; padding:10px" ng-repeat="row in rowCollection">  
                         <div class="row">
-                            <div class="col-md-2">Author:{{row.Author}}</div>
-                            <div class="col-md-4">Data:{{row.Data}}</div>
+                            <div class="col-md-4"><b>Author:</b> {{row.Author}}</div>
+                            <div class="col-md-4"><b>Data:</b> {{row.Data|date:'mediumDate'}}</div>
                         </div>
                         <div class="row">
-                            <div class="col-md-12">Subject:{{row.Subject}}</div>
+                            <div class="col-md-12"><b>Subject:</b> {{row.Subject}}</div>
                          </div>
-                            <div class="col-md-12">Groups:{{row.Groups}}></div>
-
-
-                            <div class="col-md-12">Tags:{{row.Tags}}</div>
-                            <br />
+                        <div class="row">
+                            <div class="col-md-12"><b>Groups:</b> {{row.Groups}}></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12"><b>Tags:</b> {{row.Tags}}</div>
+                        </div>
                             <br />
                         </div>
             
@@ -94,9 +95,9 @@
     <script>
         var app = angular.module('app', ['smart-table']);
 
-            app.controller('basicsCtrl', ['$scope', function (scope) {
+            app.controller('previewCtrl', ['$scope', function (scope) {
                 scope.rowCollection = [
-                    { Author: 'Denys', Subject: 'Buy a notebook Lenovo', Data: new Date('1987-05-21'), Groups: 102, Tags: 'whatever@gmail.com' },
+                    { Author: 'Denys', Subject: 'Buy a notebook LenovoBuy a notebook Lenovo', Data: new Date('1987-05-21'), Groups: 102, Tags: 'whatever@gmail.com' },
                     { Author: 'Anton', Subject: 'Buy a notebook DELL', Data: new Date('1987-05-21'), Groups: 102, Tags: 'whatever@gmail.com' },
                     { Author: 'Anna', Subject: 'Buy a notebook Apple', Data: new Date('1987-05-21'), Groups: 102, Tags: 'whatever@gmail.com' },
                 ];
