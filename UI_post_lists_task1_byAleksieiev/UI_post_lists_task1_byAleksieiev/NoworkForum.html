@@ -1,0 +1,106 @@
+﻿<!DOCTYPE html>
+<html ng-app="app">
+<head>
+	<meta charset="utf-8" />
+
+    <link rel="stylesheet" href="Content/bootstrap.min.css">
+    <style>
+        .navbar .divider-vertical {
+            height: 58px;
+            margin: 0 9px;
+            border-right: 1px solid #99CCFF;
+            border-left: 1px solid #99CCFF;
+            /*99CCFF*/
+        }
+
+        .navbar-inverse .divider-vertical {
+            border-right-color: #222222;
+            border-left-color: #111111;
+        }
+    </style>
+</head>
+<body ng-controller="basicsCtrl" class="container-fluid">
+
+    <!----HEADER BEGINING.......................................................................................-->
+        <div class="row" id="header">
+            <div class="navbar navbar-default">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="../NoworkForum.html">NOWORKFORUM</a>
+                </div>
+
+                <div class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav">
+                        <li><a href="#">Link1</a></li>
+                        <li><a href="#">Link2</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    <!----HEADER ENDING.........................................................................................-->
+
+    <!----BODY BEGINING.........................................................................................-->
+        <!--<div class="row" id="body">-->
+
+
+                    <div class="row" ng-repeat="row in rowCollection">  
+                        <div class="row">
+                            <div class="col-md-2">Author:{{row.Author}}</div>
+                            <div class="col-md-4">Data:{{row.Data}}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">Subject:{{row.Subject}}</div>
+                         </div>
+                            <div class="col-md-12">Groups:{{row.Groups}}></div>
+
+
+                            <div class="col-md-12">Tags:{{row.Tags}}</div>
+                            <br />
+                            <br />
+                        </div>
+            
+                    
+
+        <!--</div>-->
+    <!----BODY ENDING........................................................................................-->
+
+    <!----FOOTER BEGINING....................................................................................-->
+
+        <div class="row" id="footer">
+        </div>
+    <!----FOOTER ENDING......................................................................................-->
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-smart-table/2.1.6/smart-table.min.js"></script>
+
+    <script>
+        var navlnks = document.querySelectorAll(".nav a");
+        Array.prototype.map.call(navlnks, function (item) {
+            item.addEventListener("click", function (e) {
+                var navlnks = document.querySelectorAll(".nav a");
+                Array.prototype.map.call(navlnks, function (item) {
+                    if (item.parentNode.className == "active" || item.parentNode.className == "active open") {
+                        item.parentNode.className = "";
+                    }
+                });
+                e.currentTarget.parentNode.className = "active";
+            });
+        });
+    </script>
+
+    <script>
+        var app = angular.module('app', ['smart-table']);
+
+            app.controller('basicsCtrl', ['$scope', function (scope) {
+                scope.rowCollection = [
+                    { Author: 'Denys', Subject: 'Buy a notebook Lenovo', Data: new Date('1987-05-21'), Groups: 102, Tags: 'whatever@gmail.com' },
+                    { Author: 'Anton', Subject: 'Buy a notebook DELL', Data: new Date('1987-05-21'), Groups: 102, Tags: 'whatever@gmail.com' },
+                    { Author: 'Anna', Subject: 'Buy a notebook Apple', Data: new Date('1987-05-21'), Groups: 102, Tags: 'whatever@gmail.com' },
+                ];
+            }]);
+    </script>
+</body>
+</html>
