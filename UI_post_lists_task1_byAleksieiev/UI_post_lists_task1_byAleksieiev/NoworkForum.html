@@ -2,22 +2,7 @@
 <html ng-app="app">
 <head>
 	<meta charset="utf-8" />
-
     <link rel="stylesheet" href="Content/bootstrap.min.css">
-    <style>
-        .navbar .divider-vertical {
-            height: 58px;
-            margin: 0 9px;
-            border-right: 1px solid #99CCFF;
-            border-left: 1px solid #99CCFF;
-            /*99CCFF*/
-        }
-
-        .navbar-inverse .divider-vertical {
-            border-right-color: #222222;
-            border-left-color: #111111;
-        }
-    </style>
 </head>
 <body ng-controller="previewCtrl" class="container-fluid">
 
@@ -46,26 +31,29 @@
     <!----BODY BEGINING.........................................................................................-->
         <!--<div class="row" id="body">-->
 
-
                     <div class="row table table-bordered" style="margin-left:0.1pt; padding:10px" ng-repeat="row in rowCollection">  
                         <div class="row">
-                            <div class="col-md-4"><b>Author:</b> {{row.Author}}</div>
-                            <div class="col-md-4"><b>Data:</b> {{row.Data|date:'mediumDate'}}</div>
+                            <div class="col-md-4"><b>Author:</b> <a class="text-info"href="#">{{row.Author}}</a></div>
+                            <div class="col-md-4"><b>Date:</b> {{row.Date|date:'dd MMMM'}}</div>
                         </div>
                         <div class="row">
-                            <div class="col-md-12"><b>Subject:</b> {{row.Subject}}</div>
+                            <div class="col-md-12"><b>Subject:</b> <a class="text-info" href="#">{{row.Subject}}</a></div>
                          </div>
                         <div class="row">
-                            <div class="col-md-12"><b>Groups:</b> {{row.Groups}}></div>
+                            <b class="col-md-1">Groups:</b>
+                            <div ng-repeat="group in row.Groups | orderBy">
+                                <div class="col-md-2"> {{group}},</div>
+                            </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-12"><b>Tags:</b> {{row.Tags}}</div>
+                            <b class="col-md-1">Tags:</b>
+                            <div ng-repeat="tag in row.Tags | orderBy">
+                                <div class="col-md-2"> {{tag}},</div>
+                            </div>
                         </div>
                             <br />
                         </div>
             
-                    
-
         <!--</div>-->
     <!----BODY ENDING........................................................................................-->
 
@@ -74,8 +62,7 @@
         <div class="row" id="footer">
         </div>
     <!----FOOTER ENDING......................................................................................-->
-    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-smart-table/2.1.6/smart-table.min.js"></script>
+    <script type="text/javascript" src="scripts/angular.min.js"></script>
 
     <script>
         var navlnks = document.querySelectorAll(".nav a");
@@ -90,18 +77,34 @@
                 e.currentTarget.parentNode.className = "active";
             });
         });
-    </script>
 
-    <script>
-        var app = angular.module('app', ['smart-table']);
+        var app = angular.module('app', []);
+        app.controller('previewCtrl', function ($scope, $http, $interval, $window) {
+                //$scope.rowCollection = [
+                //    { Author: 'Denys', Subject: 'Buy a notebook LenovoBuy a notebook Lenovo', Date: new Date('1987-05-21'), Groups: 102, Tags: 'whatever@gmail.com' },
+                //    { Author: 'Anton', Subject: 'Buy a notebook DELL', Date: new Date('1987-05-21'), Groups: 102, Tags: 'whatever@gmail.com' }
+            //];
 
-            app.controller('previewCtrl', ['$scope', function (scope) {
-                scope.rowCollection = [
-                    { Author: 'Denys', Subject: 'Buy a notebook LenovoBuy a notebook Lenovo', Data: new Date('1987-05-21'), Groups: 102, Tags: 'whatever@gmail.com' },
-                    { Author: 'Anton', Subject: 'Buy a notebook DELL', Data: new Date('1987-05-21'), Groups: 102, Tags: 'whatever@gmail.com' },
-                    { Author: 'Anna', Subject: 'Buy a notebook Apple', Data: new Date('1987-05-21'), Groups: 102, Tags: 'whatever@gmail.com' },
-                ];
-            }]);
+                function updateTopics(data) {
+                    $scope.rowCollection = data;
+                    $scope.$apply();
+                }
+
+                function getTopics() {
+                    $http({ method: 'GET', url: 'http://localhost:64079/api/values' })
+                        .success(function (data) {
+                        updateTopics(data);
+                        }).error(function()
+                        {
+                            $window.alert("Lost server connection");
+                        })
+                };
+
+            (function () {
+                    getTopics();
+                    $interval(getTopics, 5000);
+                })();
+            });
     </script>
 </body>
 </html>
